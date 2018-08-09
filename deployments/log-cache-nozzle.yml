@@ -27,3 +27,5 @@ spec:
           value: loggregator-rlp.oratos.svc.cluster.local:8082
         - name: LOG_CACHE_ADDR
           value: log-cache-writes.oratos.svc.cluster.local:8080
+        - name: SHARD_ID
+          value: log-cache

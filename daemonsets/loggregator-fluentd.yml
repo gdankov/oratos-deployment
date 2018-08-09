@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: loggregator-fluentd
-        image: loggregator/fluentd
+        image: eirini/loggregator-fluentd
         imagePullPolicy: Always
         resources:
           limits:
