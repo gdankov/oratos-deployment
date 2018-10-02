@@ -25,6 +25,6 @@ fi
 echo "$tls_certs_header" > loggregator-tls-certs.yml
 for f in loggregator-tls-certs/*; do
     fname=$(basename "$f")
-    content=$("$b64cmd" "$f")
+    content=$($b64cmd "$f")
     echo "  $fname: $content" >> loggregator-tls-certs.yml
 done
