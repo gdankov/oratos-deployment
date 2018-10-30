@@ -1,53 +1,53 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: loggregator-router
-  namespace: oratos
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: loggregator-router
-    spec:
-      containers:
-      - name: loggregator-router
-        image: loggregator/router:v102.2
-        imagePullPolicy: Always
-        env:
-        - name: ROUTER_METRIC_SOURCE_ID
-          value: oratos/deployment/loggregator-router
-        ports:
-        - name: api
-          containerPort: 8082
-        - name: health
-          containerPort: 6061
-        volumeMounts:
-        - name: loggregator-tls-certs
-          mountPath: /srv/certs
-          readOnly: true
-      - name: loggregator-agent
-        image: loggregator/agent
-        imagePullPolicy: Always
-        env:
-        - name: AGENT_METRIC_SOURCE_ID
-          value: oratos/deployment/loggregator-router
-        - name: ROUTER_ADDR
-          value: localhost:8082
-        - name: ROUTER_ADDR_WITH_AZ
-          value: localhost:8082
-        - name: AGENT_PPROF_PORT
-          value: "6062"
-        - name: AGENT_HEALTH_ENDPOINT_PORT
-          value: "6063"
-        ports:
-        - name: health
-          containerPort: 6063
-        volumeMounts:
-        - name: loggregator-tls-certs
-          mountPath: /srv/certs
-          readOnly: true
-      volumes:
-      - name: loggregator-tls-certs
-        secret:
-          secretName: loggregator-tls-certs
+# apiVersion: extensions/v1beta1
+# kind: Deployment
+# metadata:
+#   name: loggregator-router
+#   namespace: oratos
+# spec:
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: loggregator-router
+#     spec:
+#       containers:
+#       - name: loggregator-router
+#         image: loggregator/router:v102.2
+#         imagePullPolicy: Always
+#         env:
+#         - name: ROUTER_METRIC_SOURCE_ID
+#           value: oratos/deployment/loggregator-router
+#         ports:
+#         - name: api
+#           containerPort: 8082
+#         - name: health
+#           containerPort: 6061
+#         volumeMounts:
+#         - name: loggregator-tls-certs
+#           mountPath: /srv/certs
+#           readOnly: true
+#       - name: loggregator-agent
+#         image: loggregator/agent
+#         imagePullPolicy: Always
+#         env:
+#         - name: AGENT_METRIC_SOURCE_ID
+#           value: oratos/deployment/loggregator-router
+#         - name: ROUTER_ADDR
+#           value: localhost:8082
+#         - name: ROUTER_ADDR_WITH_AZ
+#           value: localhost:8082
+#         - name: AGENT_PPROF_PORT
+#           value: "6062"
+#         - name: AGENT_HEALTH_ENDPOINT_PORT
+#           value: "6063"
+#         ports:
+#         - name: health
+#           containerPort: 6063
+#         volumeMounts:
+#         - name: loggregator-tls-certs
+#           mountPath: /srv/certs
+#           readOnly: true
+#       volumes:
+#       - name: loggregator-tls-certs
+#         secret:
+#           secretName: loggregator-tls-certs

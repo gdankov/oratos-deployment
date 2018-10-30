@@ -32,7 +32,7 @@ function patch_loggregator_objects {
     kubectl patch deployment log-cache-nozzle --namespace oratos --patch "$patch"
     kubectl patch deployment log-cache-scheduler --namespace oratos --patch "$patch"
     kubectl patch deployment loggregator-rlp --namespace oratos --patch "$patch"
-    kubectl patch deployment loggregator-router --namespace oratos --patch "$patch"
+    # kubectl patch deployment loggregator-router --namespace oratos --patch "$patch"
     kubectl patch daemonset loggregator-fluentd --namespace oratos --patch "$patch"
 
     # optinal features

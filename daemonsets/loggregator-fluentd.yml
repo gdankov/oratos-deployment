@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: loggregator-fluentd
-        image: eirini/loggregator-fluentd
+        image: eirini/loggregator-fluentd:scf-secret
         imagePullPolicy: Always
         env:
         - name: FLUENT_UID
@@ -41,19 +41,19 @@ spec:
         - name: varvcapdata
           mountPath: /var/vcap/data
           readOnly: true
-        - name: loggregator-tls-certs
+        - name: scf-secrets
           mountPath: /fluentd/certs
           readOnly: true
       - name: loggregator-agent
-        image: loggregator/agent
+        image: eirini/loggregator-agent
         imagePullPolicy: Always
         env:
         - name: AGENT_METRIC_SOURCE_ID
           value: oratos/daemonset/loggregator-fluentd
         - name: ROUTER_ADDR
-          value: loggregator-router.oratos.svc.cluster.local:8082
+          value: doppler-doppler-set.scf.svc.cluster.local:8082
         - name: ROUTER_ADDR_WITH_AZ
-          value: loggregator-router.oratos.svc.cluster.local:8082
+          value: doppler-doppler-set.scf.svc.cluster.local:8082
         - name: AGENT_PPROF_PORT
           value: "6062"
         - name: AGENT_HEALTH_ENDPOINT_PORT
@@ -62,7 +62,7 @@ spec:
         - name: health
           containerPort: 6063
         volumeMounts:
-        - name: loggregator-tls-certs
+        - name: scf-secrets
           mountPath: /srv/certs
           readOnly: true
       terminationGracePeriodSeconds: 30
@@ -82,6 +82,9 @@ spec:
       - name: varvcapdata
         hostPath:
           path: /var/vcap/data/
+      - name: scf-secrets
+        secret:
+          secretName: secrets-2.14.0-1
       - name: loggregator-tls-certs
         secret:
           secretName: loggregator-tls-certs

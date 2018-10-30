@@ -19,7 +19,8 @@ spec:
           value: oratos/deployment/loggregator-rlp
         - name: ROUTER_ADDRS
           # TODO: this needs all instances of router, not just a service lb
-          value: loggregator-router.oratos.svc.cluster.local:8082
+          #value: doppler-doppler-set.scf.svc.cluster.local
+          value: 172.30.179.208
         ports:
         - name: api
           containerPort: 8082
@@ -36,9 +37,9 @@ spec:
         - name: AGENT_METRIC_SOURCE_ID
           value: oratos/deployment/loggregator-rlp
         - name: ROUTER_ADDR
-          value: loggregator-router.oratos.svc.cluster.local:8082
+          value: 172.30.179.208
         - name: ROUTER_ADDR_WITH_AZ
-          value: loggregator-router.oratos.svc.cluster.local:8082
+          value: 172.30.179.208
         - name: AGENT_PPROF_PORT
           value: "6062"
         - name: AGENT_HEALTH_ENDPOINT_PORT
@@ -47,10 +48,13 @@ spec:
         - name: health
           containerPort: 6063
         volumeMounts:
-        - name: loggregator-tls-certs
+        - name: scf-secrets
           mountPath: /srv/certs
           readOnly: true
       volumes:
       - name: loggregator-tls-certs
         secret:
           secretName: loggregator-tls-certs
+      - name: scf-secrets
+        secret:
+          secretName: secrets-2.14.0-1
